@@ -1,1 +1,14 @@
-bmFtZTogQ0kgRWNobyBDaGVjawpvbjogW3B1c2gsIHdvcmtmbG93X2Rpc3BhdGNoXQpqb2JzOgogIHZlcmlmeToKICAgIHJ1bnMtb246IHVidW50dS1sYXRlc3QKICAgIHN0ZXBzOgogICAgICAtIG5hbWU6IENhbmFyeSBmYWlsdXJlIG9uIGZpcnN0IGF0dGVtcHQKICAgICAgICBpZjogJHt7IGdpdGh1Yi5ydW5fYXR0ZW1wdCA9PSAxIH19CiAgICAgICAgcnVuOiB8CiAgICAgICAgICBlY2hvICJDSSB2ZXJpZmljYXRpb24gY2FuYXJ5IGZhaWxpbmcgYnkgZGVzaWduIG9uIGF0dGVtcHQgMSIKICAgICAgICAgIGV4aXQgMQogICAgICAtIG5hbWU6IENhbmFyeSBzdWNjZXNzIG9uIGxhdGVyIGF0dGVtcHRzCiAgICAgICAgaWY6ICR7eyBnaXRodWIucnVuX2F0dGVtcHQgIT0gMSB9fQogICAgICAgIHJ1bjogZWNobyAiQ0kgdmVyaWZpY2F0aW9uIHBpcGVsaW5lIGV4ZWN1dGVkIHN1Y2Nlc3NmdWxseSIK
+name: CI Echo Check
+on: [push, workflow_dispatch]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Canary failure on first attempt
+        if: ${{ github.run_attempt == 1 }}
+        run: |
+          echo "CI verification canary failing by design on attempt 1"
+          exit 1
+      - name: Canary success on later attempts
+        if: ${{ github.run_attempt != 1 }}
+        run: echo "CI verification pipeline executed successfully"
